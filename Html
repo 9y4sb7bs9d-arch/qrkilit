@@ -4,29 +4,20 @@
 <meta charset="UTF-8">
 <title>QR Kilit</title>
 
-<!-- QR okuma kütüphanesi -->
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
-  margin-top: 40px;
-  background: #f4f4f4;
-}
-h2 {
-  color: #333;
-}
-button {
-  font-size: 18px;
-  padding: 10px 16px;
+  margin-top: 30px;
 }
 #reader {
   width: 300px;
   margin: auto;
 }
 #sifre {
-  font-size: 42px;
+  font-size: 40px;
   color: green;
   font-weight: bold;
 }
@@ -46,7 +37,7 @@ button {
 <div id="sifre"></div>
 
 <script>
-/* 🔐 Gizli anahtar (sadece sitede) */
+/* 🔐 Gizli anahtar */
 const gizliAnahtar = 4321;
 
 /* 📱 Telefonu yetkilendir */
@@ -63,13 +54,20 @@ function sifreUret() {
 
 /* 📷 QR okutulunca */
 function onScanSuccess(decodedText) {
-  if (decodedText !== "LOCK_QR_01") {
-    document.getElementById("sonuc").innerText = "Yanlış QR kod";
+
+  // DEBUG: Okunan QR'ı göster
+  document.getElementById("sonuc").innerText =
+    "Okunan QR: " + decodedText;
+
+  // QR içeriği KESİN olarak bu olmalı
+  if (decodedText.trim() !== "LOCK_QR_01") {
+    document.getElementById("sifre").innerText = "";
     return;
   }
 
   if (localStorage.getItem("yetkili") !== "true") {
-    document.getElementById("sonuc").innerText = "❌ Bu telefon yetkili değil";
+    document.getElementById("sonuc").innerText =
+      "❌ Bu telefon yetkili değil";
     return;
   }
 
